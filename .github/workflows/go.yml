@@ -36,13 +36,13 @@ jobs:
         path: output/
         
     - name: Build linux
-    run: |
+      run: |
         go env -w GOOS=linux
         go build -v -o outputl/http_bench ./...
         
     - name: Upload linux binaries
       uses: actions/upload-artifact@v4
       with:
-        name: windows-binaries
+        name: linux-binaries
         path: outputl/
         
