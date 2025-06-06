@@ -1,0 +1,36 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Go
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+    runs-on: ububtu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.20'
+
+    - name: Get dependencies
+      run: |
+        go version
+        go env
+        go mod download
+
+    - name: Build
+      run: go build -v -o output/http_bench ./...
+      
+    - name: Upload binaries
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux-binaries
+        path: output/
